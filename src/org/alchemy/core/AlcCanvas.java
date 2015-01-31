@@ -39,15 +39,15 @@ import java.io.*;
 import com.sun.pdfview.*;
 
 // JPEN
-import jpen.*;
-import jpen.event.PenListener;
+// import jpen.*;
+// import jpen.event.PenListener;
 
 /** 
  * The Alchemy canvas <br>
  * Stores all shapes created and handles all graphics related stuff<br>
  * Think saving pdfs, printing, and of course displaying! 
  */
-public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, MouseMotionListener, PenListener, Printable {
+public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, MouseMotionListener, Printable {
     //////////////////////////////////////////////////////////////
     // GLOBAL SHAPE SETTINGS
     //////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     private boolean createEvents = true;
     private boolean affectEvents = true;
     /** The Pen manager used by JPen*/
-    private PenManager pm;
+    // private PenManager pm;
     /** Pen down or up */
     private boolean penDown = false;
     /** The type of pen - PEN_STYLUS / PEN_ERASER / PEN_CURSOR */
@@ -169,7 +169,7 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     /** Graphics Envrionment - updated everytime the volatile buffImage is refreshed */
     private GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     /** Graphics Configuration - updated everytime the volatile buffImage is refreshed */
-    private GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+    // private GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
     /** A Vector based canvas for full redrawing */
     VectorCanvas vectorCanvas;
     /** Previous cursor */
@@ -222,9 +222,9 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
 
         vectorCanvas = new VectorCanvas();
 
-        pm = new PenManager(this);
-        pm.pen.addListener(this);
-        pm.pen.setFrequencyLater(200);
+        // pm = new PenManager(this);
+        // pm.pen.addListener(this);
+        // pm.pen.setFrequencyLater(200);
 
         this.setCursor(CURSOR_CROSS);
     }
@@ -347,11 +347,11 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
         if (redraw) {
             if (fullRedraw) {
                 // If the window is transparent
-                if (Alchemy.window.isTransparent()) {
-                    canvasImage = renderCanvas(true, true);
-                } else {
-                    canvasImage = renderCanvas(true);
-                }
+                // if (Alchemy.window.isTransparent()) {
+                //     canvasImage = renderCanvas(true, true);
+                // } else {
+                //     canvasImage = renderCanvas(true);
+                // }
             }
             this.repaint();
             // Something has happened on the canvas and the user is still active
@@ -503,18 +503,18 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     /** Set the pen location - set internally by pen events */
-    private void setPenLocation(PLevelEvent ev) {
-        for (PLevel level : ev.levels) {
-            PLevel.Type levelType = level.getType();
-            switch (levelType) {
-                case X:
-                    penLocation.x = level.value;
-                    break;
-                case Y:
-                    penLocation.y = level.value;
-                    break;
-            }
-        }
+    private void setPenLocation() {
+        // for (PLevel level : ev.levels) {
+        //     PLevel.Type levelType = level.getType();
+        //     switch (levelType) {
+        //         case X:
+        //             penLocation.x = level.value;
+        //             break;
+        //         case Y:
+        //             penLocation.y = level.value;
+        //             break;
+        //     }
+        // }
     }
 
     /** Has the pen location changed - useful for filtering out repeats
@@ -535,32 +535,32 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
      * @param ev PenEvent from JPen pen tablet library
      */
     private void setPenType() {
-        PKind.Type kindType = pm.pen.getKind().getType();
-        switch (kindType) {
-            case CUSTOM:
-                penType = 0;
-                break;
-            case STYLUS:
-                currentColorIndex = 0;
-                if(!alphaLocked){
-                    setAlpha(currentAlphaSet[currentColorIndex]);
-                }
-                setColor(currentColorSet.get(currentColorIndex));                    
-                Alchemy.toolBar.refreshColorButton();
-                penType = PEN_STYLUS;
-                break;
-            case ERASER:
-                currentColorIndex = 1;
-                if(!alphaLocked){
-                    setAlpha(currentAlphaSet[currentColorIndex]);
-                }
-                setColor(currentColorSet.get(currentColorIndex));
-                Alchemy.toolBar.refreshColorButton();
-                penType = PEN_ERASER;
-                break;
-            case CURSOR:
-                penType = PEN_CURSOR;
-        }
+        // PKind.Type kindType = pm.pen.getKind().getType();
+        // switch (kindType) {
+        //     case CUSTOM:
+        //         penType = 0;
+        //         break;
+        //     case STYLUS:
+        //         currentColorIndex = 0;
+        //         if(!alphaLocked){
+        //             setAlpha(currentAlphaSet[currentColorIndex]);
+        //         }
+        //         setColor(currentColorSet.get(currentColorIndex));                    
+        //         Alchemy.toolBar.refreshColorButton();
+        //         penType = PEN_STYLUS;
+        //         break;
+        //     case ERASER:
+        //         currentColorIndex = 1;
+        //         if(!alphaLocked){
+        //             setAlpha(currentAlphaSet[currentColorIndex]);
+        //         }
+        //         setColor(currentColorSet.get(currentColorIndex));
+        //         Alchemy.toolBar.refreshColorButton();
+        //         penType = PEN_ERASER;
+        //         break;
+        //     case CURSOR:
+        // }
+        penType = PEN_CURSOR;
     }
 
     /** Resize the canvas - called when the window is resized
@@ -617,10 +617,10 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
      * @param cursor    New temp cursor
      */
     public void setTempCursor(Cursor cursor) {
-        if (oldCursor == null) {
-            oldCursor = this.getCursor();
-            this.setCursor(cursor);
-        }
+        // if (oldCursor == null) {
+        //     oldCursor = this.getCursor();
+        //     this.setCursor(cursor);
+        // }
     }
 
     /** Restore the cursor */
@@ -1219,7 +1219,7 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
         if(currentZoom<1){
             zoomMousing = true;
             Alchemy.toolBar.setToolBarVisible(false);
-            setTempCursor(CURSOR_ZOOM);
+            // setTempCursor(CURSOR_ZOOM);
 
         }else{
             zoomCanvas(false);
@@ -1434,12 +1434,14 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
             height = visibleRect.height;
         }
         ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+        // gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
         BufferedImage buffImage;
         if (transparent) {
-            buffImage = gc.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+            // buffImage = gc.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+            buffImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         } else {
-            buffImage = gc.createCompatibleImage(width, height, Transparency.OPAQUE);
+            // buffImage = gc.createCompatibleImage(width, height, Transparency.OPAQUE);
+            buffImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         }
         // Paint the buffImage with the canvas
         Graphics2D g2 = buffImage.createGraphics();
@@ -1595,6 +1597,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     // MOUSE EVENTS
     //////////////////////////////////////////////////////////////
     public void mouseMoved(MouseEvent event) {
+        System.out.println("firing mousepressed");
+        System.out.println(event.toString());
         setPenLocation(event);
         if (isAutoToggleToolBar()) {
             Alchemy.toolBar.toggleToolBar(event.getY());
@@ -1621,12 +1625,14 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mousePressed(MouseEvent event) {
+        System.out.println("firing mousepressed");
+        System.out.println(event.toString());
         penDown = true;
         // Hide the toolbar when clicking on the canvas
-        if (!Alchemy.preferences.paletteAttached && Alchemy.toolBar.isToolBarVisible() &&
-                !Alchemy.preferences.simpleToolBar && event.getY() >= Alchemy.toolBar.getTotalHeight()) {
-            Alchemy.toolBar.setToolBarVisible(false);
-        }
+        // if (!Alchemy.preferences.paletteAttached && Alchemy.toolBar.isToolBarVisible() &&
+        //         !Alchemy.preferences.simpleToolBar && event.getY() >= Alchemy.toolBar.getTotalHeight()) {
+        //     Alchemy.toolBar.setToolBarVisible(false);
+        // }
         
         if(event.getButton()!=MouseEvent.BUTTON1&&zoomMousing){
             stopZoomMousing();
@@ -1688,6 +1694,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseClicked(MouseEvent event) {
+        System.out.println("firing clicked");
+        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1707,6 +1715,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseEntered(MouseEvent event) {
+        System.out.println("firing entered");
+        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1726,6 +1736,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseExited(MouseEvent event) {
+        System.out.println("firing mouseexited");
+        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1745,6 +1757,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseReleased(MouseEvent event) {
+        System.out.println("firing mousereleased");
+        System.out.println(event.toString());
         penDown = false;
         if (events) {
             // Pass to the current create module
@@ -1766,6 +1780,8 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseDragged(MouseEvent event) {
+        System.out.println("firing mousedragged");
+        System.out.println(event.toString());
         setPenLocation(event);
         if (events) {
             // Pass to the current create module
@@ -1790,37 +1806,37 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     //////////////////////////////////////////////////////////////
     // PEN EVENTS
     //////////////////////////////////////////////////////////////
-    public void penKindEvent(PKindEvent ev) {
+    public void penKindEvent() {
         setPenType();
     }
 
-    public void penLevelEvent(PLevelEvent ev) {
+    public void penLevelEvent() {
         //setPenType();
         // Register the pen pressure, tilt and location 
         // Do this only if this is an actual pen
         // Otherwise register pen location using the mouse
-        if (penType != PEN_CURSOR) {
-            // Pressure and tilt is only good when the pen is down
-            if (penDown) {
-                penPressure = pm.pen.getLevelValue(PLevel.Type.PRESSURE);
-                // parabolic sensitivity
-                penPressure *= penPressure;
-                penTilt.x = pm.pen.getLevelValue(PLevel.Type.TILT_X);
-                penTilt.y = pm.pen.getLevelValue(PLevel.Type.TILT_Y);
-            }
-            // If this event is a movement
-            if (ev.isMovement()) {
-                // Register the pen location even when the mouse is up
-                setPenLocation(ev);
-                penLocationChanged = true;
-            }
-        }
+        // if (penType != PEN_CURSOR) {
+        //     // Pressure and tilt is only good when the pen is down
+        //     if (penDown) {
+        //         penPressure = pm.pen.getLevelValue(PLevel.Type.PRESSURE);
+        //         // parabolic sensitivity
+        //         penPressure *= penPressure;
+        //         penTilt.x = pm.pen.getLevelValue(PLevel.Type.TILT_X);
+        //         penTilt.y = pm.pen.getLevelValue(PLevel.Type.TILT_Y);
+        //     }
+        //     // If this event is a movement
+        //     if (ev.isMovement()) {
+        //         // Register the pen location even when the mouse is up
+        //         setPenLocation(ev);
+        //         penLocationChanged = true;
+        //     }
+        // }
     }
 
-    public void penButtonEvent(PButtonEvent arg0) {
+    public void penButtonEvent() {
     }
 
-    public void penScrollEvent(PScrollEvent arg0) {
+    public void penScrollEvent() {
     }
 
     public void penTock(long arg0) {

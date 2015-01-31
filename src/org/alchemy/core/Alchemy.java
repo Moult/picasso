@@ -19,6 +19,9 @@
  */
 package org.alchemy.core;
 
+import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -81,7 +84,7 @@ public class Alchemy implements AlcConstants {
     /** Preferences class */
     static AlcPreferences preferences;
     /** Shortcut manager class */
-    static AlcShortcuts shortcuts;
+    // static AlcShortcuts shortcuts;
     /** Session class - controls automatic saving of the canvas */
     static AlcSession session;
     /** Resource Bundle containing language specific text */
@@ -119,59 +122,60 @@ public class Alchemy implements AlcConstants {
         }
         
         
-        if (preferences.locale.equals("system")) {
+        // if (preferences.locale.equals("system")) {
             
-            try { // Try and get the default bundle
+        //     try { // Try and get the default bundle
 
-                // For Hong Kong lets keep it traditional and use the traditional chinese from the taiwan bundle
-                if (LOCALE.getLanguage().equals("zh") && LOCALE.getCountry().equals("HK")) {
-                    bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", new Locale("zh", "TW"));
-                } else {
-                    bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", LOCALE);
-                }
-            } catch (Exception ex) {
-                // If that fails lets practice our English!
-                ex.printStackTrace();
-                bundle = bundleEn;
-            }        
+        //         // For Hong Kong lets keep it traditional and use the traditional chinese from the taiwan bundle
+        //         if (LOCALE.getLanguage().equals("zh") && LOCALE.getCountry().equals("HK")) {
+        //             bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", new Locale("zh", "TW"));
+        //         } else {
+        //             bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", LOCALE);
+        //         }
+        //     } catch (Exception ex) {
+        //         // If that fails lets practice our English!
+        //         ex.printStackTrace();
+        //         bundle = bundleEn;
+        //     }        
             
-        } else {
-           try { bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", new Locale(preferences.locale));
-           } catch (Exception ex) {
-                // If that fails lets practice our English!
-                ex.printStackTrace();
-                bundle = bundleEn;
-           }
-        }
+        // } else {
+        //    try { bundle = ResourceBundle.getBundle("org/alchemy/core/AlcResourceBundle", new Locale(preferences.locale));
+        //    } catch (Exception ex) {
+        //         // If that fails lets practice our English!
+        //         ex.printStackTrace();
+        //         bundle = bundleEn;
+        //    }
+        // }
+        bundle = bundleEn;
 
 
 
 
         
         // Initiate Colour IO Class
-        colourIO = new AlcColourIO();
+        // colourIO = new AlcColourIO();
 
         // Create the window
-        window = new AlcWindow();
+        // window = new AlcWindow();
 
         // LOCALE specific text for the Swing components
-        UIManager.put("FileChooser.cancelButtonText", bundle.getString("cancel"));
-        UIManager.put("FileChooser.newFolderButtonText", bundle.getString("newFolder"));
-        UIManager.put("FileChooser.openButtonText", bundle.getString("open"));
+        // UIManager.put("FileChooser.cancelButtonText", bundle.getString("cancel"));
+        // UIManager.put("FileChooser.newFolderButtonText", bundle.getString("newFolder"));
+        // UIManager.put("FileChooser.openButtonText", bundle.getString("open"));
 
-        UIManager.put("FileChooser.openDialogTitleText", bundle.getString("open"));
-        UIManager.put("FileChooser.saveDialogTitleText", bundle.getString("save"));
+        // UIManager.put("FileChooser.openDialogTitleText", bundle.getString("open"));
+        // UIManager.put("FileChooser.saveDialogTitleText", bundle.getString("save"));
 
-        UIManager.put("OptionPane.yesButtonText", bundle.getString("yes"));
-        UIManager.put("OptionPane.noButtonText", bundle.getString("no"));
-        UIManager.put("OptionPane.okButtonText", bundle.getString("ok"));
-        UIManager.put("OptionPane.cancelButtonText", bundle.getString("cancel"));
+        // UIManager.put("OptionPane.yesButtonText", bundle.getString("yes"));
+        // UIManager.put("OptionPane.noButtonText", bundle.getString("no"));
+        // UIManager.put("OptionPane.okButtonText", bundle.getString("ok"));
+        // UIManager.put("OptionPane.cancelButtonText", bundle.getString("cancel"));
 
         // LOAD SHORTCUTS
-        shortcuts = new AlcShortcuts(window);
+        // shortcuts = new AlcShortcuts(window);
 
         // Color Selector
-        colorSelector = new AlcColorSelector(bundle.getString("colorTitle"));
+        // colorSelector = new AlcColorSelector(bundle.getString("colorTitle"));
         //cs.setVisible(true);
 
         // LOAD PLUGINS
@@ -183,35 +187,74 @@ public class Alchemy implements AlcConstants {
         // LOAD SESSION
         session = new AlcSession();
         // Load the palette
-        palette = new AlcPalette(window);
+        // palette = new AlcPalette(window);
 
         // User Interface toolbar
-        if (preferences.simpleToolBar) {
-           toolBar = new AlcSimpleToolBar();
-        } else {
-           toolBar = new AlcToolBar();
-        }
+        // if (preferences.simpleToolBar) {
+        //    toolBar = new AlcSimpleToolBar();
+        // } else {
+        //    toolBar = new AlcToolBar();
+        // }
 
         // Menu Bar
-        menuBar = new AlcMenuBar();
+        // menuBar = new AlcMenuBar();
 
-        window.setupWindow();
-        shortcuts.setupWindow();
-        preferences.setupWindow();
+        // window.setupWindow();
+        // shortcuts.setupWindow();
+        // preferences.setupWindow();
         plugins.initialiseModules();
 
-        if (Alchemy.preferences.simpleToolBar) {
-            window.setFullscreen(true);
-            menuBar.fullScreenItem.setSelected(true);
-        }
+        // if (Alchemy.preferences.simpleToolBar) {
+        //     window.setFullscreen(true);
+        //     menuBar.fullScreenItem.setSelected(true);
+        // }
 
 
 //        toolBar.removeSubToolBarSection(0);
 //        plugins.setCurrentCreate(8);
         
 
-        window.setVisible(true);
+        // window.setVisible(true);
 
+// canvas.toggleStyle();
+        plugins.setCurrentCreate(7);
+        canvas.mouseEntered(new MouseEvent(
+            canvas,
+            MouseEvent.MOUSE_ENTERED,
+            System.currentTimeMillis(),
+            0,
+            50, 50,
+            0,
+            false
+        ));
+        canvas.mousePressed(new MouseEvent(
+            canvas,
+            MouseEvent.MOUSE_ENTERED,
+            System.currentTimeMillis(),
+            MouseEvent.BUTTON1_MASK,
+            50, 50,
+            1,
+            false,
+            1
+        ));
+
+
+        for (int i = 0; i < 100; i++) {
+            System.out.println("looping");
+            System.out.println(i);
+            canvas.mouseDragged(new MouseEvent(
+                canvas,
+                MouseEvent.MOUSE_DRAGGED,
+                System.currentTimeMillis(),
+                MouseEvent.BUTTON1_MASK,
+                50 + i * i, 50 + i,
+                0,
+                false
+            ));
+            // canvas.getCurrentCreateShape().curveTo(new Point(50 + i, 50 + i));
+            // canvas.redraw();
+        }
+        session.saveSVG(new File("foo.svg"));
         
 
 

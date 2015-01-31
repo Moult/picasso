@@ -54,8 +54,8 @@ public class SplatterShapes extends AlcModule {
         maxLineWidth = math.random(50) + 50F;
         size = 1;
         
-        createSubToolBarSection();
-        toolBar.addSubToolBarSection(subToolBarSection);
+        // createSubToolBarSection();
+        // toolBar.addSubToolBarSection(subToolBarSection);
     }
 
     @Override

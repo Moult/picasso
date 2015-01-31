@@ -44,7 +44,7 @@ import java.util.regex.*;
  */
 public class AlcUtil implements AlcConstants {
 
-    private final static Clipboard CLIPBOARD = TOOLKIT.getSystemClipboard();
+    // private final static Clipboard CLIPBOARD = TOOLKIT.getSystemClipboard();
     //////////////////////////////////////////////////////////////
     // STRING FUNCTIONS
     //////////////////////////////////////////////////////////////
@@ -765,14 +765,15 @@ public class AlcUtil implements AlcConstants {
      * @return boolean false if an exception occured
      */
     public static boolean setClipboard(Transferable contents, ClipboardOwner owner) {
-        boolean result = true;
-        try {
-            CLIPBOARD.setContents(contents, owner);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            result = false;
-        }
-        return result;
+        return true;
+        // boolean result = true;
+        // try {
+        //     CLIPBOARD.setContents(contents, owner);
+        // } catch (IllegalStateException e) {
+        //     e.printStackTrace();
+        //     result = false;
+        // }
+        // return result;
     }
     
      /** Show a notification dialog specific to the OS style
@@ -989,11 +990,11 @@ public class AlcUtil implements AlcConstants {
      */
     public static void registerWindowCloseKeys(JRootPane root, Action closeAction) {
         // Shortcut to close with escape
-        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Close Window");
+        // root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Close Window");
         // Shortcut to close with a modifier - w
-        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, KEY_MODIFIER), "Close Window");
+        // root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, KEY_MODIFIER), "Close Window");
         // Assign the action for the two keys
-        root.getActionMap().put("Close Window", closeAction);
+        // root.getActionMap().put("Close Window", closeAction);
     }
     //////////////////////////////////////////////////////////////
     // DRAWING

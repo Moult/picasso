@@ -46,7 +46,7 @@ public interface AlcConstants {
     /** Convenience access to the {@link Toolkit} */
     static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
     /** Modifier flags for the shortcut key used to trigger menus. (Cmd on Mac OS X, Ctrl on Linux and Windows) */
-    static final int KEY_MODIFIER = TOOLKIT.getMenuShortcutKeyMask();
+    // static final int KEY_MODIFIER = TOOLKIT.getMenuShortcutKeyMask();
     /** Full name of the Java version eg 1.5.0_11 */
     static final String JAVA_VERSION_NAME = System.getProperty("java.version");
     /** Version of Java that's in use, whether 1.1 or 1.3 or whatever stored as a float */
@@ -112,16 +112,16 @@ public interface AlcConstants {
     /** Cursor - Wait Cursor */
     static final Cursor CURSOR_WAIT = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
     /** Cursor - Blank Cursor */
-    static final Cursor CURSOR_BLANK = TOOLKIT.createCustomCursor(
-            Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)),
-            new Point(0, 0),
-            "Blank");
+    // static final Cursor CURSOR_BLANK = TOOLKIT.createCustomCursor(
+    //         Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16)),
+    //         new Point(0, 0),
+    //         "Blank");
     /** Cursor - Circle Cursor used with the color picker */
-    static final Cursor CURSOR_CIRCLE = AlcUtil.getCursor("cursor-circle.png");
+    // static final Cursor CURSOR_CIRCLE = AlcUtil.getCursor("cursor-circle.png");
     /** Cursor - Zoom Cursor */
-    static final Cursor CURSOR_ZOOM = AlcUtil.getCursor("cursor-zoom.png");
+    // static final Cursor CURSOR_ZOOM = AlcUtil.getCursor("cursor-zoom.png");
     /** Cursor - Eyedropper Cursor */
-    static final Cursor CURSOR_EYEDROPPER = AlcUtil.getCursor("cursor-eyedropper.png");
+    // static final Cursor CURSOR_EYEDROPPER = AlcUtil.getCursor("cursor-eyedropper.png");
     //////////////////////////////////////////////////////////////
     // PEN TYPES
     //////////////////////////////////////////////////////////////

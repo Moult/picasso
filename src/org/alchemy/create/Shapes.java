@@ -50,8 +50,8 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     protected void setup() {
-        createSubToolBarSection();
-        toolBar.addSubToolBarSection(subToolBarSection);
+        // createSubToolBarSection();
+        // toolBar.addSubToolBarSection(subToolBarSection);
     }
 
     @Override
@@ -111,6 +111,7 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println("shapepress");
         if (!straightShapes) {
             Point p = e.getPoint();
             AlcShape shape = new AlcShape(p);
@@ -124,6 +125,7 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("shapeclick");
         // Detect a doubleclick
         if (!e.isConsumed() && e.getButton() == 1 && e.getClickCount() > 1) {
             reset();
@@ -135,9 +137,11 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        System.out.println("shapemove");
         // If in freeform mode, not on the first click and if there is a valid lastPoint
         // then draw a guide line
         if (straightShapes && !firstClick && lastPt != null) {
+            System.out.println("shapedraw");
 
             GeneralPath line = new GeneralPath(new Line2D.Float(lastPt.x, lastPt.y, e.getX(), e.getY()));
             AlcShape guide = new AlcShape(line, guideColor, 100, STYLE_STROKE, 1);
@@ -162,6 +166,8 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        System.out.println("shapedrag");
+        System.out.println(e.getPoint());
         if (!straightShapes) {
             
            //System.out.println(canvas.getPenType() + " " + canvas.getPenPressure());
@@ -179,6 +185,7 @@ public class Shapes extends AlcModule implements AlcConstants {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        System.out.println("shaperelease");
         
         Point p = e.getPoint();
         // Only if this is a single click
