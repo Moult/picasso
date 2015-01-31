@@ -1,6 +1,8 @@
+*.swp
 *.jar
 *.war
 *.ear
 *.class
 build/
 dist/
+modules/
