@@ -77,9 +77,9 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     public int activeSwatchIndex;
     
     /** Global Shape Style - (1) LINE or (2) SOLID FILL */
-    private int style = STYLE_STROKE;
+    public int style = STYLE_STROKE;
     /** Globl Shape Line Weight (if the style is line) */
-    private float lineWidth = 1F;
+    public float lineWidth = 1F;
     //////////////////////////////////////////////////////////////
     // GLOBAL SETTINGS
     ////////////////////////////////////////////////////////////// 
@@ -1597,8 +1597,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     // MOUSE EVENTS
     //////////////////////////////////////////////////////////////
     public void mouseMoved(MouseEvent event) {
-        System.out.println("firing mousepressed");
-        System.out.println(event.toString());
         setPenLocation(event);
         if (isAutoToggleToolBar()) {
             Alchemy.toolBar.toggleToolBar(event.getY());
@@ -1625,8 +1623,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mousePressed(MouseEvent event) {
-        System.out.println("firing mousepressed");
-        System.out.println(event.toString());
         penDown = true;
         // Hide the toolbar when clicking on the canvas
         // if (!Alchemy.preferences.paletteAttached && Alchemy.toolBar.isToolBarVisible() &&
@@ -1694,8 +1690,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseClicked(MouseEvent event) {
-        System.out.println("firing clicked");
-        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1715,8 +1709,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseEntered(MouseEvent event) {
-        System.out.println("firing entered");
-        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1736,8 +1728,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseExited(MouseEvent event) {
-        System.out.println("firing mouseexited");
-        System.out.println(event.toString());
         if (events) {
             // Pass to the current create module
             if (createEvents) {
@@ -1757,8 +1747,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseReleased(MouseEvent event) {
-        System.out.println("firing mousereleased");
-        System.out.println(event.toString());
         penDown = false;
         if (events) {
             // Pass to the current create module
@@ -1780,8 +1768,6 @@ public class AlcCanvas extends JPanel implements AlcConstants, MouseListener, Mo
     }
 
     public void mouseDragged(MouseEvent event) {
-        System.out.println("firing mousedragged");
-        System.out.println(event.toString());
         setPenLocation(event);
         if (events) {
             // Pass to the current create module

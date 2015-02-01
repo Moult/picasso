@@ -38,11 +38,11 @@ public class PullShapes extends AlcModule implements AlcConstants {
     private AlcToolBarSubSection subToolBarSection;
     //
     // Timing
-    private long mouseDelayGap = 51;
+    private long mouseDelayGap = 1;
     private long mouseDelayTime;
     //
     private boolean hasFolders,  hasRootShapes,  hasShapes;
-    private int currentFolder;
+    public int currentFolder;
     private String[] folderNames;
     private ArrayList[] shapeLists;
     private AlcSubComboBox folderSelector;
@@ -57,8 +57,8 @@ public class PullShapes extends AlcModule implements AlcConstants {
     @Override
     protected void setup() {
         loadShapes();
-        createSubToolBarSection();
-        toolBar.addSubToolBarSection(subToolBarSection);
+        // createSubToolBarSection();
+        // toolBar.addSubToolBarSection(subToolBarSection);
 
     }
 
@@ -165,7 +165,7 @@ public class PullShapes extends AlcModule implements AlcConstants {
         hasFolders = false;
         hasRootShapes = false;
         hasShapes = false;
-        currentFolder = 0;
+        currentFolder = 1;
         shapeLists = null;
         folderNames = null;
 
@@ -324,7 +324,7 @@ public class PullShapes extends AlcModule implements AlcConstants {
     public void mousePressed(MouseEvent e) {
 
         if (hasShapes) {
-            currentFolder = getFolder();
+            // currentFolder = getFolder();
             //System.out.println("Current Folder = " + currentFolder);
             mouseDelayTime = System.currentTimeMillis();
             addRandomShape(e);

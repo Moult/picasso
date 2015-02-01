@@ -34,7 +34,7 @@ public class ScrawlShapes extends AlcModule {
     private int count = 0;
     private int flow = 10;
     private int detail = 10;
-    private int noise = 10;
+    private int noise = 30;
     private AlcToolBarSubSection subToolBarSection;
 
     public ScrawlShapes() {
@@ -43,8 +43,8 @@ public class ScrawlShapes extends AlcModule {
 
     @Override
     protected void setup() {
-        createSubToolBarSection();
-        toolBar.addSubToolBarSection(subToolBarSection);
+        // createSubToolBarSection();
+        // toolBar.addSubToolBarSection(subToolBarSection);
     }
 
     @Override

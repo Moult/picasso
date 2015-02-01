@@ -26,6 +26,13 @@ import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Random;
+
 /**
  * Main class for Alchemy<br />
  * Handles all and everything - the meta 'root' reference
@@ -99,7 +106,7 @@ public class Alchemy implements AlcConstants {
     /** Color import/export and modulation functions */
     static AlcColourIO colourIO;
 
-    Alchemy() {
+    Alchemy(String instructionPath, String outputPath) {
 
         if (OS == OS_MAC) {
             Object appIcon = LookAndFeel.makeIcon(getClass(), "/org/alchemy/data/alchemy-logo64.png");
@@ -216,46 +223,38 @@ public class Alchemy implements AlcConstants {
 
         // window.setVisible(true);
 
-// canvas.toggleStyle();
-        plugins.setCurrentCreate(7);
-        canvas.mouseEntered(new MouseEvent(
-            canvas,
-            MouseEvent.MOUSE_ENTERED,
-            System.currentTimeMillis(),
-            0,
-            50, 50,
-            0,
-            false
-        ));
-        canvas.mousePressed(new MouseEvent(
-            canvas,
-            MouseEvent.MOUSE_ENTERED,
-            System.currentTimeMillis(),
-            MouseEvent.BUTTON1_MASK,
-            50, 50,
-            1,
-            false,
-            1
-        ));
-
-
-        for (int i = 0; i < 100; i++) {
-            System.out.println("looping");
-            System.out.println(i);
-            canvas.mouseDragged(new MouseEvent(
-                canvas,
-                MouseEvent.MOUSE_DRAGGED,
-                System.currentTimeMillis(),
-                MouseEvent.BUTTON1_MASK,
-                50 + i * i, 50 + i,
-                0,
-                false
-            ));
-            // canvas.getCurrentCreateShape().curveTo(new Point(50 + i, 50 + i));
-            // canvas.redraw();
+        try {
+            FileInputStream fis = new FileInputStream(new File(instructionPath));
+         
+            //Construct BufferedReader from InputStreamReader
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+         
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                Scanner s = new Scanner(line);
+                String command = s.next();
+                if (command.equals("CREATE")) {
+                    create(s.nextInt());
+                } else if (command.equals("THICKNESS")) {
+                    canvas.lineWidth = s.nextFloat();
+                } else if (command.equals("STROKE")) {
+                    canvas.style = 1;
+                } else if (command.equals("FILL")) {
+                    canvas.style = 2;
+                } else if (command.equals("TOGGLE_STYLE")) {
+                    canvas.toggleStyle();
+                } else if (command.equals("DRAW")) {
+                    draw(s.nextFloat(), s.nextFloat(), s.nextFloat(), s.nextFloat(), s.nextInt(), s.nextInt(), s.nextInt());
+                }
+            }
+         
+            br.close();
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
         }
-        session.saveSVG(new File("foo.svg"));
-        
+
+        session.saveSVG(new File(outputPath));
 
 
         // Check for missing language keys
@@ -268,6 +267,53 @@ public class Alchemy implements AlcConstants {
         System.out.println("Language: " + LOCALE.getLanguage());
         System.out.println("Country: " + LOCALE.getCountry());
 
+    }
+
+    private void create(int createType) {
+        Alchemy.plugins.setCurrentCreate(createType);
+    }
+
+    private void draw(float startX, float startY, float endX, float endY, int start, int end, int easingType) {
+        AlcEasing easing = new AlcEasing();
+
+        List<Map<String,Float>> eventSequence = easing.getEventSequence(startX, startY, endX, endY, start, end, easingType);
+
+        canvas.mouseEntered(new MouseEvent(
+            canvas,
+            MouseEvent.MOUSE_ENTERED,
+            Math.round(start),
+            0,
+            Math.round(startX), Math.round(startY),
+            0,
+            false
+        ));
+
+        canvas.mousePressed(new MouseEvent(
+            canvas,
+            MouseEvent.MOUSE_ENTERED,
+            Math.round(start),
+            MouseEvent.BUTTON1_MASK,
+            Math.round(startX), Math.round(startY),
+            1,
+            false,
+            1
+        ));
+
+        for (int i = 0; i < eventSequence.size(); i++) {
+            Map<String,Float> event = eventSequence.get(i);
+            Random rand = new Random();
+            int offsetX = rand.nextInt((5 - -5)) + -5;
+            int offsetY = rand.nextInt((5 - -5)) + -5;
+            canvas.mouseDragged(new MouseEvent(
+                canvas,
+                MouseEvent.MOUSE_DRAGGED,
+                Math.round(event.get("time")),
+                MouseEvent.BUTTON1_MASK,
+                Math.round(event.get("x")) + offsetX, Math.round(event.get("y")) + offsetY,
+                0,
+                false
+            ));
+        }
     }
 
     public static void main(String[] args) {
@@ -306,7 +352,6 @@ public class Alchemy implements AlcConstants {
             e.printStackTrace();
         }
 
-        new Alchemy();
-
+        new Alchemy(args[0], args[1]);
     }
 }
